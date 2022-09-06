@@ -19,16 +19,14 @@ import { addContact, removeContact, setFilter } from './actions';
 // };
 
 const items = createReducer([], {
-  [addContact]: (store, action) => [...store.items, action.payload],
+  [addContact]: (state, action) => [...state, action.payload],
 
-  [removeContact]: (store, action) =>
-    store.items.filter(({ id }) => id !== action.payload),
-
-  //   [setFilter]: (store, action) => ({ ...store, filter: action.payload }),
+  [removeContact]: (state, action) =>
+    state.filter(({ id }) => id !== action.payload),
 });
 
 const filter = createReducer('', {
-  [setFilter]: (store, action) => action.payload,
+  [setFilter]: (state, action) => action.payload,
 });
 
 const store = configureStore({
