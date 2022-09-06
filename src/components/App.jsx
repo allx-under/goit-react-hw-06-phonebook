@@ -59,7 +59,7 @@ const App = () => {
       <ContactsFilter onChange={onInputChange} filter={filter} />
       <Contacts
         onClick={onClickDelete}
-        nameList={contacts.filter(contact =>
+        nameList={contacts?.filter(contact =>
           contact.name.toLowerCase().includes(filter.toLowerCase())
         )}
       />

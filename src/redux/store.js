@@ -1,27 +1,41 @@
-import { createStore } from 'redux';
-import { ADD_CONTACT, REMOVE_CONTACT, SET_FILTER } from './types';
+import { configureStore, createReducer } from '@reduxjs/toolkit';
+import { addContact, removeContact, setFilter } from './actions';
 
-const initialStore = {
-  items: [],
-  filter: '',
-};
+// const reducer = (store = initialStore, action) => {
+//   switch (action.type) {
+//     case ADD_CONTACT:
+//       return { ...store, items: [...store.items, action.payload] };
 
-const reducer = (store = initialStore, action) => {
-  switch (action.type) {
-    case ADD_CONTACT:
-      return { ...store, items: [...store.items, action.payload] };
+//     case REMOVE_CONTACT:
+//       return {
+//         ...store,
+//         items: store.items.filter(({ id }) => id !== action.payload),
+//       };
+//     case SET_FILTER:
+//       return { ...store, filter: action.payload };
+//     default:
+//       return store;
+//   }
+// };
 
-    case REMOVE_CONTACT:
-      return {
-        ...store,
-        items: store.items.filter(({ id }) => id !== action.payload),
-      };
-    case SET_FILTER:
-      return { ...store, filter: action.payload };
-    default:
-      return store;
-  }
-};
-const store = createStore(reducer);
+const items = createReducer([], {
+  [addContact]: (store, action) => [...store.items, action.payload],
+
+  [removeContact]: (store, action) =>
+    store.items.filter(({ id }) => id !== action.payload),
+
+  //   [setFilter]: (store, action) => ({ ...store, filter: action.payload }),
+});
+
+const filter = createReducer('', {
+  [setFilter]: (store, action) => action.payload,
+});
+
+const store = configureStore({
+  reducer: {
+    items,
+    filter,
+  },
+});
 
 export default store;
